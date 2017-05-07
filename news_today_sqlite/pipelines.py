@@ -11,9 +11,9 @@ from news_today_sqlite.items import NewsTodaySqliteItem
 class NewsTodaySqlitePipeline(object):
     def process_item(self, item, spider):
         if item.__class__ == NewsTodaySqliteItem:  # 此句非必要，在多个items时可能需要用到
-            conn = sqlite3.connect('C:/Program Files/DB Browser for SQLite/database/test.db')
+            conn = sqlite3.connect('C:/Program Files/DB Browser for SQLite/database/database.db')
             cur = conn.cursor()
-            sql = "insert into mytable1(title,publish,link,text) values (?,?,?,?)"
+            sql = "insert into today_newspapers(title,publish,link,text) values (?,?,?,?)"
             cur.execute(sql, (item['title'], item['publish'], item['link'], item['text'],))
             conn.commit()
             cur.close()
