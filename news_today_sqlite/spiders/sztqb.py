@@ -5,6 +5,7 @@ import scrapy
 from bs4 import BeautifulSoup
 import urlparse
 from news_today_sqlite.items import NewsTodaySqliteItem
+import re
 
 
 class AllArticles(scrapy.Spider):
@@ -47,18 +48,18 @@ class AllArticles(scrapy.Spider):
         item = response.meta['item']
         data = response.body
         soup = BeautifulSoup(data, "html5lib")
-        text = ""
+        text = "   "
         ts = soup.find('div', style="height:900px; overflow-y:scroll; width:100%;").find('tbody').find_all('tr',
                                                                                                            valign='top')
-        temp = "    "
+        temp = ""
         for t in ts:
             if t.get_text() is not None:
-                temp += t.get_text() + '\n\n    '
+                temp += t.get_text() + '\n\n   '
         text += temp
         ps = soup.find('founder-content').find_all('p')
         for p in ps:
             text += p.get_text()
-            text += "\n\n    "
+            text += "\n\n   "
         item['text'] = text
         publish = item["publish"]
         pub = soup.find("table", width=413, border=0, cellpadding=5, cellspacing=0, style="MARGIN-BOTTOM: 3px") \

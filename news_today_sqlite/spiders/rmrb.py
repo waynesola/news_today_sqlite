@@ -14,6 +14,7 @@ class AllArticles(scrapy.Spider):
     start_urls = [
         "http://paper.people.com.cn"
     ]
+
     # 爬取当天报纸所有版块
     def parse(self, response):
         data = response.body
@@ -48,17 +49,17 @@ class AllArticles(scrapy.Spider):
         h2 = soup.find('div', class_="text_c").find('h2')
         h4 = soup.find('div', class_="text_c").find('h4')
         if h3:
-            text = text + h3.get_text() + '\n    '
+            text = text + h3.get_text() + '\n\n    '
         if h1:
-            text = text + h1.get_text() + '\n    '
+            text = text + h1.get_text() + '\n\n    '
         if h2:
-            text = text + h2.get_text() + '\n    '
+            text = text + h2.get_text() + '\n\n    '
         if h4:
-            text = text + h4.get_text() + '\n'
+            text = text + h4.get_text() + '\n\n'
         ps = soup.find('div', style="display:none", id="articleContent").find_all('p')
         for p in ps:
             text += p.get_text()
-            text += "\n"
+            text += "\n\n"
         title = soup.find('title').get_text()
         item['title'] = title
         item['text'] = text

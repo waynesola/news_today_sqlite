@@ -53,7 +53,7 @@ class AllArticles(scrapy.Spider):
         ps = soup.find('div', class_="text", id="showneirong").find_all('p')
         for p in ps:
             text += p.get_text()
-            text += "\n    "
+            text += "\n\n    "
         item['title'] = title
         item['text'] = text
         item['link'] = response.url
